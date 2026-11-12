@@ -9,3 +9,8 @@ buildEnv:
 image:
   repository: smini/delivery-pipeline-demo
   credentialsId: dockerhub-publisher
+
+gitOps:
+  repository: hskhsmm/delivery-pipeline-gitops
+  manifest: apps/delivery-demo/deployment.yaml
+  credentialsId: delivery-gitops-publisher
