@@ -1,0 +1,11 @@
+serviceName: delivery-demo
+timeoutMinutes: 30
+
+# Gradle 검증 단계에만 전달하는 환경변수입니다.
+buildEnv:
+  JAVA_TOOL_OPTIONS: '-Xmx1g'
+  CI: 'true'
+
+image:
+  repository: smini/delivery-pipeline-demo
+  credentialsId: dockerhub-publisher
