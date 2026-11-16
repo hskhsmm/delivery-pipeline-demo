@@ -12,3 +12,23 @@ tasks.named('jar') {
     archiveFileName = 'service.jar'
     manifest.attributes('Main-Class': 'example.HealthServer')
 }
+
+sourceSets {
+    httpTest {
+        compileClasspath += sourceSets.main.output
+        runtimeClasspath += sourceSets.main.output
+    }
+}
+
+tasks.register('httpTest', JavaExec) {
+    group = 'verification'
+    description = 'Verify the demo endpoints over HTTP with the JDK client.'
+    dependsOn tasks.named('httpTestClasses')
+    classpath = sourceSets.httpTest.runtimeClasspath
+    mainClass = 'example.ShippingQuoteHttpTest'
+    javaLauncher = javaToolchains.launcherFor(java.toolchain)
+}
+
+tasks.named('check') {
+    dependsOn tasks.named('httpTest')
+}
