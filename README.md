@@ -38,4 +38,6 @@ curl -i 'http://127.0.0.1:18080/shipping-quote?subtotal=30000'
 
 ## 검증 결과
 
-로컬 Jenkins의 `delivery-github-demo #3`이 서비스 커밋 `01c4f84`와 공유 라이브러리 커밋 `6a3367c`를 GitHub에서 직접 체크아웃해 이미지를 발행했습니다. 발행된 digest를 로컬 GitOps 저장소에 직접 커밋한 뒤 Argo CD가 `delivery-sandbox`의 기존 배포를 갱신했고, Service의 `/health`에서 HTTP 200과 `ok`를 확인했습니다.
+Jenkins 빌드 #6에서 배송비 API의 HTTP 테스트 10개가 통과했습니다. Jenkins가 이미지를 발행하고 GitOps PR #2를 열었습니다. PR을 검토해 병합한 뒤 Argo CD가 `delivery-sandbox`에 새 이미지를 적용했고, 배포된 서비스에 직접 요청해 정상 응답, 무료 배송 경계값, 오류 응답을 확인했습니다. [배송비 API 배포 검증과 캡처](docs/evidence/shipping-quote.md)
+
+초기 검증에서는 Jenkins 빌드 #3이 서비스 커밋 `01c4f84`의 이미지를 발행했습니다. 당시에는 digest를 GitOps 저장소에 직접 커밋하고 Argo CD 동기화와 `/health`의 응답을 확인했습니다.
