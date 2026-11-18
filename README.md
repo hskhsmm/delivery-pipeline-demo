@@ -62,4 +62,4 @@ GitOps PR로 readiness 검사 경로를 잘못 지정해 새 Pod 0/1, HTTP 404, 
 
 35,000원 주문은 일반 배송에서 배송비 3,000원·합계 38,000원, 빠른 배송에서 배송비 5,000원·합계 40,000원입니다. 이전 v1의 같은 주문은 무료배송이므로 배포 전후를 비교할 수 있습니다.
 
-[단계별 업데이트 검증과 캡처](docs/evidence/checkout-v2.md)
+서비스 PR #2 병합 후 Jenkins #8이 v2 이미지를 발행하고 GitOps PR #6을 자동 생성했습니다. PR 병합 후 Argo CD가 새 이미지를 배포했고, Kubernetes Service를 통해 일반·빠른 배송 결과를 모두 확인했습니다. [단계별 배포 검증과 캡처](docs/evidence/checkout-v2.md)
