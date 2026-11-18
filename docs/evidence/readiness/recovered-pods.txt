@@ -1,0 +1,2 @@
+NAME                             READY   STATUS    RESTARTS   AGE   IP            NODE                             NOMINATED NODE   READINESS GATES
+delivery-demo-75894466b8-9xhlz   1/1     Running   0          61m   10.244.0.14   delivery-sandbox-control-plane   <none>           <none>
