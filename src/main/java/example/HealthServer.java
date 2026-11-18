@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
 public final class HealthServer {
     private static final String SHIPPING_PATH = "/shipping-quote";
     private static final String JSON = "application/json; charset=utf-8";
-    private static final Pattern SUBTOTAL_QUERY = Pattern.compile("subtotal=([0-9]{1,9})");
+    private static final Pattern SUBTOTAL_QUERY = Pattern.compile("subtotal=([0-9]{1,9})(?:&delivery=(standard|express))?");
 
     private HealthServer() {}
 
@@ -46,8 +46,8 @@ public final class HealthServer {
         exchange.getResponseHeaders().set("Cache-Control", "no-store");
         if (path.equals("/version")) {
             respond(exchange, 200, JSON,
-                    "{\"version\":\"shipping-ui-v1\",\"freeShippingThreshold\":%d,\"standardShippingFee\":%d}\n"
-                            .formatted(ShippingQuote.FREE_SHIPPING_THRESHOLD, ShippingQuote.STANDARD_SHIPPING_FEE));
+                    "{\"version\":\"shipping-ui-v2\",\"freeShippingThreshold\":%d,\"standardShippingFee\":%d,\"expressSurcharge\":%d}\n"
+                            .formatted(ShippingQuote.FREE_SHIPPING_THRESHOLD, ShippingQuote.STANDARD_SHIPPING_FEE, ShippingQuote.EXPRESS_SURCHARGE));
             return;
         }
         try (var resource = HealthServer.class.getResourceAsStream("/index.html")) {
@@ -78,7 +78,8 @@ public final class HealthServer {
             return;
         }
 
-        ShippingQuote quote = ShippingQuote.forSubtotal(Integer.parseInt(subtotal.group(1)));
+        ShippingQuote quote = ShippingQuote.forSubtotal(Integer.parseInt(subtotal.group(1)),
+                "express".equals(subtotal.group(2)));
         String response = """
                 {"subtotal":%d,"shippingFee":%d,"total":%d}
                 """.formatted(quote.subtotal(), quote.shippingFee(), quote.total());

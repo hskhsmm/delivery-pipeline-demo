@@ -19,7 +19,7 @@ public final class ShippingQuoteHttpTest {
             check(page.body().contains("id=\"quote-form\""), true, "page packaged in classpath");
             check(page.headers().firstValue("Cache-Control").orElse(""), "no-store", "page cache");
             assertResponse(client, base, "GET", "/version", 200,
-                    "{\"version\":\"shipping-ui-v1\",\"freeShippingThreshold\":30000,\"standardShippingFee\":3000}", "application/json");
+                    "{\"version\":\"shipping-ui-v2\",\"freeShippingThreshold\":40000,\"standardShippingFee\":3000,\"expressSurcharge\":2000}", "application/json");
             assertResponse(client, base, "GET", "/missing", 404,
                     "{\"error\":\"not_found\"}", "application/json");
             assertResponse(client, base, "POST", "/", 405,
@@ -28,10 +28,22 @@ public final class ShippingQuoteHttpTest {
             assertResponse(client, base, "GET", "/shipping-quote?subtotal=29999", 200,
                     "{\"subtotal\":29999,\"shippingFee\":3000,\"total\":32999}", "application/json");
             assertResponse(client, base, "GET", "/shipping-quote?subtotal=30000", 200,
-                    "{\"subtotal\":30000,\"shippingFee\":0,\"total\":30000}", "application/json");
+                    "{\"subtotal\":30000,\"shippingFee\":3000,\"total\":33000}", "application/json");
 
+            // 이전 API 호출도 유지하면서 새 정책의 경계값과 배송 옵션을 확인한다.
+            assertResponse(client, base, "GET", "/shipping-quote?subtotal=35000", 200,
+                    "{\"subtotal\":35000,\"shippingFee\":3000,\"total\":38000}", "application/json");
+            assertResponse(client, base, "GET", "/shipping-quote?subtotal=40000", 200,
+                    "{\"subtotal\":40000,\"shippingFee\":0,\"total\":40000}", "application/json");
+            assertResponse(client, base, "GET", "/shipping-quote?subtotal=39999&delivery=standard", 200,
+                    "{\"subtotal\":39999,\"shippingFee\":3000,\"total\":42999}", "application/json");
+            assertResponse(client, base, "GET", "/shipping-quote?subtotal=35000&delivery=express", 200,
+                    "{\"subtotal\":35000,\"shippingFee\":5000,\"total\":40000}", "application/json");
+            assertResponse(client, base, "GET", "/shipping-quote?subtotal=40000&delivery=express", 200,
+                    "{\"subtotal\":40000,\"shippingFee\":2000,\"total\":42000}", "application/json");
             for (String query : new String[] {"", "?subtotal=-1", "?subtotal=abc",
-                    "?subtotal=1000000000", "?subtotal=10&subtotal=20"}) {
+                    "?subtotal=1000000000", "?subtotal=10&subtotal=20", "?subtotal=35000&delivery=unknown",
+                    "?subtotal=35000&delivery=express&delivery=standard"}) {
                 assertResponse(client, base, "GET", "/shipping-quote" + query, 400,
                         "{\"error\":\"invalid_subtotal\"}", "application/json");
             }
@@ -44,7 +56,7 @@ public final class ShippingQuoteHttpTest {
         } finally {
             server.stop(0);
         }
-        System.out.println("HTTP checks passed: page, version, routing, /health and 9 shipping quote cases");
+        System.out.println("HTTP checks passed: page, version, routing, /health, shipping policy boundaries and delivery options");
     }
 
     private static HttpResponse<String> assertResponse(HttpClient client, URI base, String method,

@@ -1,90 +1,197 @@
 <!doctype html>
 <html lang="ko">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>배송비 계산 · Delivery</title>
-<style>
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;600;700&display=swap');
-:root{font-family:'DM Sans','Noto Sans KR',sans-serif;color:#24362f;background:#f6f7f3;font-synthesis:none}*{box-sizing:border-box}body{margin:0}header{max-width:1080px;margin:auto;padding:32px 32px;display:flex;justify-content:space-between;align-items:center}.brand{font-size:22px;font-weight:700;letter-spacing:-1px}.brand span{color:#6c8774}.version{font-size:12px;color:#53655b;border:1px solid #d6ded5;padding:8px 12px;border-radius:20px}main{max-width:1000px;margin:66px auto;padding:0 32px}.eyebrow{font-size:12px;letter-spacing:2px;color:#617b69;font-weight:700}h1{font-size:clamp(32px,5vw,48px);line-height:1.3;letter-spacing:-2px;margin:16px 0} .intro{color:#6c776d;line-height:1.8;margin-bottom:40px}.calculator{display:grid;grid-template-columns:1.1fr 1fr;border:1px solid #dce3d8;border-radius:24px;background:white;overflow:hidden;box-shadow:0 18px 55px #273f2c08}form{padding:40px}label{display:block;font-size:14px;font-weight:600;margin-bottom:14px}.amount{display:flex;align-items:center;border:1px solid #becbbd;border-radius:12px;padding:0 18px;gap:12px}.amount:focus-within{outline:2px solid #496b51;outline-offset:2px}input{width:100%;border:0;outline:none;font:600 28px 'DM Sans',sans-serif;padding:20px 0;color:#24362f;background:transparent}.amount span{color:#7c877d}.hint{font-size:12px;color:#728073;line-height:1.8;min-height:44px;margin:14px 0 24px}button{width:100%;background:#284e3b;color:white;border:0;border-radius:12px;padding:17px;font:600 15px inherit;cursor:pointer}button:hover{background:#193d2b}button:disabled{opacity:.65;cursor:wait}.result{padding:40px;background:#edf2e9;display:flex;flex-direction:column;justify-content:center}.result-title{margin:0 0 28px;font-size:14px;font-weight:600}.row{display:flex;justify-content:space-between;gap:16px;margin-bottom:20px;font-size:14px;color:#5a6e5d}.row strong{color:#294534}.total{border-top:1px solid #ccd8c7;padding-top:24px;align-items:center;margin:6px 0 0}.total strong{font-size:30px;letter-spacing:-1px}.status{font-size:12px;color:#526c55;line-height:1.8;margin:22px 0 0;min-height:22px}.error{color:#a13d30}footer{margin-top:24px;display:flex;justify-content:space-between;gap:16px;font-size:12px;color:#7b877b;line-height:1.8}footer a{color:inherit} @media(max-width:650px){header{padding:24px}main{margin:36px auto;padding:0 24px}.calculator{grid-template-columns:1fr}form,.result{padding:28px}footer{flex-direction:column;gap:4px}.intro{font-size:14px}}
-</style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>주문 미리보기 · Delivery</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap');
+    :root { font-family: 'DM Sans', 'Apple SD Gothic Neo', sans-serif; color: #253c31; background: #f5f6f1; }
+    * { box-sizing: border-box; }
+    body { margin: 0; }
+    header { border-bottom: 1px solid #dde2d7; }
+    .nav { max-width: 1120px; margin: auto; padding: 24px 32px; display: flex; align-items: center; justify-content: space-between; }
+    .brand { font-size: 26px; font-weight: 700; letter-spacing: -1px; }
+    .nav-right { display: flex; align-items: center; gap: 24px; font-size: 12px; color: #697b6e; }
+    .version { border: 1px solid #ccd8c9; border-radius: 24px; padding: 7px 12px; }
+    main { max-width: 1120px; margin: 48px auto; padding: 0 32px; }
+    .eyebrow { color: #75846c; font-size: 11px; letter-spacing: 2px; font-weight: 700; }
+    h1 { font-size: 38px; letter-spacing: -1.8px; margin: 14px 0; }
+    .intro { color: #778174; font-size: 14px; line-height: 1.8; margin: 0 0 32px; }
+    .layout { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(320px, 1fr); gap: 24px; align-items: start; }
+    .panel { border: 1px solid #dfe5d9; border-radius: 20px; background: #fff; padding: 28px; }
+    h2 { font-size: 17px; margin: 0 0 24px; letter-spacing: -.5px; }
+    .section-heading { display: flex; justify-content: space-between; align-items: center; }
+    .muted { color: #7b8577; font-size: 12px; }
+    .product { display: flex; align-items: center; gap: 18px; padding: 22px 0; border-top: 1px solid #edf0e9; }
+    .product-art { width: 76px; height: 84px; border-radius: 12px; display: grid; place-items: center; flex: 0 0 auto; }
+    .book { background: #e7eddf; }
+    .pencil { background: #f2e9d9; }
+    .book-object { width: 35px; height: 46px; background: #54795b; border-radius: 2px 5px 5px 2px; border-left: 5px solid #375d42; transform: rotate(-12deg); box-shadow: 5px 6px 0 #375d421a; }
+    .pencil-object { height: 49px; width: 8px; background: #b7864d; border-top: 8px solid #dcba94; transform: rotate(27deg); box-shadow: 12px 0 0 #d9b168; }
+    .product-info { flex: 1; }
+    h3 { font-size: 14px; margin: 0 0 7px; }
+    .product-info p { font-size: 12px; margin: 0 0 11px; color: #7d8578; }
+    .price { font-size: 14px; font-weight: 600; }
+    .quantity { display: flex; flex-direction: column; gap: 6px; align-items: end; color: #7b8577; font-size: 11px; }
+    input[type=number] { width: 65px; padding: 8px; border: 1px solid #d6dfd1; border-radius: 7px; color: #253c31; font: inherit; font-size: 14px; }
+    .shipping-panel { margin-top: 24px; }
+    .options { display: grid; gap: 12px; }
+    .option { display: flex; align-items: center; gap: 12px; padding: 17px; border: 1px solid #dce4d6; border-radius: 12px; cursor: pointer; }
+    .option:has(input:checked) { border-color: #56754c; background: #f5f8f1; }
+    input[type=radio] { accent-color: #406438; }
+    .option-copy { flex: 1; display: grid; gap: 5px; font-size: 13px; }
+    .option-copy small { font-size: 11px; color: #7b8577; }
+    .option-price { font-size: 12px; color: #637859; }
+    .summary { background: #eaf0e3; border-color: #d5e0cc; }
+    .summary .row { display: flex; justify-content: space-between; gap: 14px; font-size: 14px; margin: 20px 0; color: #64765b; }
+    .summary strong { color: #2c4931; }
+    .total { border-top: 1px solid #cedbc3; padding-top: 24px; align-items: center; }
+    .total strong { font-size: 30px; letter-spacing: -1px; }
+    .benefit { background: #f8faf5; border-radius: 10px; padding: 15px; margin: 24px 0; font-size: 12px; line-height: 1.8; color: #617354; }
+    button { width: 100%; padding: 17px; border: 0; border-radius: 11px; background: #34573a; color: white; font: inherit; font-size: 14px; font-weight: 600; cursor: pointer; }
+    button:hover { background: #25462a; }
+    button:disabled { opacity: .6; cursor: wait; }
+    :focus-visible { outline: 2px solid #53773e; outline-offset: 3px; }
+    .status { font-size: 12px; line-height: 1.7; color: #67775c; min-height: 40px; margin-bottom: 0; }
+    .error { color: #a33d30; }
+    .disclosure { font-size: 11px; color: #8a9382; text-align: center; line-height: 1.8; margin: 18px 8px 0; }
+    footer { border-top: 1px solid #dde2d7; margin-top: 36px; padding-top: 20px; display: flex; justify-content: space-between; gap: 16px; font-size: 11px; color: #7d8877; }
+    footer a { color: inherit; }
+    @media(max-width: 760px) { main { margin-top: 32px; } .layout { grid-template-columns: 1fr; } .nav, main { padding-left: 20px; padding-right: 20px; } .panel { padding: 22px; } h1 { font-size: 30px; } .nav-right > span:first-child { display: none; } footer { flex-direction: column; } }
+  </style>
 </head>
 <body>
-<header><div class="brand">delivery<span>.</span></div><span class="version" id="version">버전 확인 중</span></header>
+<header><div class="nav"><div class="brand">delivery.</div><div class="nav-right"><span>일상의 작은 물건들</span><span class="version" id="version">버전 확인 중</span></div></div></header>
 <main>
-<div class="eyebrow">SHIPPING CALCULATOR</div>
-<h1>배송비까지, 한 번에.</h1>
-<p class="intro">주문 금액을 입력하면 배송비와 최종 결제 금액을 확인할 수 있어요.</p>
-<div class="calculator">
-<form id="quote-form">
-<label for="subtotal">주문 금액</label>
-<div class="amount"><input id="subtotal" name="subtotal" type="number" inputmode="numeric" min="0" max="999999999" step="1" value="35000" required aria-describedby="policy"><span>원</span></div>
-<p class="hint" id="policy">배송 정책을 확인하고 있어요.</p>
-<button id="calculate" type="submit">배송비 계산하기 ↗</button>
-</form>
-<section class="result" aria-label="배송비 계산 결과" aria-live="polite" aria-busy="false" id="result">
-<h2 class="result-title">결제 예상 금액</h2>
-<div class="row"><span>주문 금액</span><strong id="order-value">—</strong></div>
-<div class="row"><span>배송비</span><strong id="shipping-value">—</strong></div>
-<div class="row total"><span>합계</span><strong id="total-value">—</strong></div>
-<p class="status" id="status">금액을 입력하고 계산하기를 눌러주세요.</p>
-</section>
-</div>
-<footer><span>계산 결과는 현재 배포된 API에서 가져옵니다.</span><a href="/version" target="_blank" rel="noopener">배포 버전 확인 ↗</a></footer>
+  <div class="eyebrow">YOUR ORDER</div>
+  <h1>담은 물건, 도착할 때까지.</h1>
+  <p class="intro">수량과 배송 방법을 선택하고 주문 금액을 미리 확인해 보세요.</p>
+  <form id="quote-form" class="layout">
+    <div>
+      <section class="panel" aria-labelledby="cart-title">
+        <div class="section-heading"><h2 id="cart-title">장바구니</h2><span class="muted">샘플 상품 2종</span></div>
+        <div class="product">
+          <div class="product-art book" aria-hidden="true"><div class="book-object"></div></div>
+          <div class="product-info"><h3>데일리 노트</h3><p>포레스트 그린 · 무지</p><span class="price">18,000원</span></div>
+          <label class="quantity" for="notebook-quantity">수량<input id="notebook-quantity" type="number" min="0" max="99" step="1" value="1" required></label>
+        </div>
+        <div class="product">
+          <div class="product-art pencil" aria-hidden="true"><div class="pencil-object"></div></div>
+          <div class="product-info"><h3>우드 펜슬 세트</h3><p>내추럴 우드 · 6개입</p><span class="price">17,000원</span></div>
+          <label class="quantity" for="pencil-quantity">수량<input id="pencil-quantity" type="number" min="0" max="99" step="1" value="1" required></label>
+        </div>
+      </section>
+      <section class="panel shipping-panel" aria-labelledby="delivery-title">
+        <h2 id="delivery-title">배송 방법</h2>
+        <div class="options">
+          <label class="option"><input type="radio" name="delivery" value="standard" checked><span class="option-copy">일반 배송<small>기본 배송 정책 적용</small></span><span class="option-price" id="standard-policy">정책 확인 중</span></label>
+          <label class="option"><input type="radio" name="delivery" value="express"><span class="option-copy">빠른 배송<small>기본 배송비에 추가 요금 적용</small></span><span class="option-price" id="express-policy">정책 확인 중</span></label>
+        </div>
+      </section>
+    </div>
+    <aside>
+      <section class="panel summary" id="result" aria-labelledby="summary-title" aria-live="polite" aria-busy="false">
+        <h2 id="summary-title">주문 요약</h2>
+        <div class="row"><span>상품 금액</span><strong id="order-value">—</strong></div>
+        <div class="row"><span>배송비</span><strong id="shipping-value">—</strong></div>
+        <div class="row total"><span>결제 예상 금액</span><strong id="total-value">—</strong></div>
+        <p class="benefit" id="policy">배송 정책을 확인하고 있어요.</p>
+        <button id="calculate" type="submit">배송비 계산하기 ↗</button>
+        <p class="status" id="status">선택한 상품과 배송 방법으로 계산해 주세요.</p>
+      </section>
+      <p class="disclosure">배포 검증용 주문 미리보기입니다.<br>실제 주문이나 결제는 진행되지 않습니다.</p>
+    </aside>
+  </form>
+  <footer><span>배송비는 현재 배포된 API에서 계산합니다.</span><a href="/version" target="_blank" rel="noopener">현재 서비스 버전 ↗</a></footer>
 </main>
 <script>
-const money = value => new Intl.NumberFormat('ko-KR').format(value) + '원';
-const form = document.getElementById('quote-form');
-const status = document.getElementById('status');
-const button = document.getElementById('calculate');
-const result = document.getElementById('result');
-const input = document.getElementById('subtotal');
-function clearResult() {
-  for (const id of ['order-value', 'shipping-value', 'total-value']) document.getElementById(id).textContent = '—';
-}
-// 입력을 바꾸면 이전 금액의 계산 결과를 지워 혼동을 줄인다.
-input.addEventListener('input', () => {
-  clearResult();
-  status.classList.remove('error');
-  status.textContent = '변경한 금액으로 다시 계산해주세요.';
-});
-async function readJson(path) {
-  const response = await fetch(path, {cache: 'no-store', signal: AbortSignal.timeout(10000)});
-  if (!response.ok) throw new Error('HTTP ' + response.status);
-  return response.json();
-}
-readJson('/version').then(data => {
-  document.getElementById('version').textContent = data.version;
-  document.getElementById('policy').textContent = money(data.freeShippingThreshold) + ' 이상 주문하면 무료배송이에요. 기본 배송비는 ' + money(data.standardShippingFee) + '이에요.';
-}).catch(() => {
-  document.getElementById('version').textContent = '버전 확인 실패';
-  document.getElementById('policy').textContent = '배송 정책을 가져오지 못했어요. 페이지를 새로고침해주세요.';
-});
-form.addEventListener('submit', async event => {
-  event.preventDefault();
-  if (!form.reportValidity()) return;
-  const subtotal = input.value;
-  button.disabled = true;
-  input.disabled = true;
-  result.setAttribute('aria-busy', 'true');
-  status.classList.remove('error');
-  status.textContent = '배송비를 계산하고 있어요.';
-  clearResult();
-  try {
-    const quote = await readJson('/shipping-quote?subtotal=' + encodeURIComponent(subtotal));
-    document.getElementById('order-value').textContent = money(quote.subtotal);
-    document.getElementById('shipping-value').textContent = quote.shippingFee === 0 ? '무료' : money(quote.shippingFee);
-    document.getElementById('total-value').textContent = money(quote.total);
-    status.textContent = quote.shippingFee === 0 ? '무료배송이 적용됐어요.' : '배송비가 포함된 금액이에요.';
-  } catch (error) {
-    status.classList.add('error');
-    status.textContent = '계산하지 못했어요. 잠시 후 다시 시도해주세요.';
-  } finally {
-    button.disabled = false;
-    input.disabled = false;
-    result.setAttribute('aria-busy', 'false');
+  const money = value => new Intl.NumberFormat('ko-KR').format(value) + '원';
+  const form = document.getElementById('quote-form');
+  const status = document.getElementById('status');
+  const button = document.getElementById('calculate');
+  const result = document.getElementById('result');
+  const notebook = document.getElementById('notebook-quantity');
+  const pencil = document.getElementById('pencil-quantity');
+  let policy;
+  let pending = false;
+
+  function subtotal() {
+    return Number(notebook.value) * 18000 + Number(pencil.value) * 17000;
   }
-});
+
+  function clearResult() {
+    for (const id of ['order-value', 'shipping-value', 'total-value']) {
+      document.getElementById(id).textContent = '—';
+    }
+  }
+
+  function showPolicy() {
+    if (!policy) return;
+    const remaining = Math.max(0, policy.freeShippingThreshold - subtotal());
+    document.getElementById('policy').textContent = remaining > 0
+      ? money(remaining) + ' 더 담으면 기본 배송비가 무료예요. 빠른 배송 추가 요금은 별도로 적용돼요.'
+      : '무료배송 기준을 충족했어요. 빠른 배송 추가 요금은 별도로 적용돼요.';
+  }
+
+  form.addEventListener('input', () => {
+    clearResult();
+    status.classList.remove('error');
+    status.textContent = '선택이 바뀌었어요. 배송비를 다시 계산해 주세요.';
+    showPolicy();
+  });
+
+  async function readJson(path) {
+    const response = await fetch(path, {cache: 'no-store', signal: AbortSignal.timeout(10000)});
+    if (!response.ok) throw new Error('HTTP ' + response.status);
+    return response.json();
+  }
+
+  readJson('/version').then(data => {
+    policy = data;
+    document.getElementById('version').textContent = data.version;
+    document.getElementById('standard-policy').textContent = money(data.freeShippingThreshold) + ' 이상 무료';
+    document.getElementById('express-policy').textContent = '+' + money(data.expressSurcharge);
+    showPolicy();
+  }).catch(() => {
+    document.getElementById('version').textContent = '버전 확인 실패';
+    document.getElementById('policy').textContent = '배송 정책을 가져오지 못했어요. 새로고침해 주세요.';
+  });
+
+  form.addEventListener('submit', async event => {
+    event.preventDefault();
+    if (pending || !form.reportValidity()) return;
+    if (subtotal() === 0) {
+      clearResult();
+      status.classList.add('error');
+      status.textContent = '상품을 하나 이상 담아 주세요.';
+      return;
+    }
+    const delivery = form.querySelector('input[name="delivery"]:checked').value;
+    const query = new URLSearchParams({subtotal: String(subtotal()), delivery});
+    pending = true;
+    button.disabled = true;
+    for (const input of form.querySelectorAll('input')) input.disabled = true;
+    result.setAttribute('aria-busy', 'true');
+    status.classList.remove('error');
+    status.textContent = '배송비를 계산하고 있어요.';
+    clearResult();
+    try {
+      const quote = await readJson('/shipping-quote?' + query);
+      document.getElementById('order-value').textContent = money(quote.subtotal);
+      document.getElementById('shipping-value').textContent = quote.shippingFee === 0 ? '무료' : money(quote.shippingFee);
+      document.getElementById('total-value').textContent = money(quote.total);
+      status.textContent = (delivery === 'express' ? '빠른 배송' : '일반 배송') + ' 기준으로 계산했어요.';
+    } catch (error) {
+      status.classList.add('error');
+      status.textContent = '계산하지 못했어요. 잠시 후 다시 시도해 주세요.';
+    } finally {
+      pending = false;
+      button.disabled = false;
+      for (const input of form.querySelectorAll('input')) input.disabled = false;
+      result.setAttribute('aria-busy', 'false');
+    }
+  });
 </script>
 </body>
 </html>
