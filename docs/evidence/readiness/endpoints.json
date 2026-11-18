@@ -1,0 +1,83 @@
+{
+    "apiVersion": "v1",
+    "items": [
+        {
+            "addressType": "IPv4",
+            "apiVersion": "discovery.k8s.io/v1",
+            "endpoints": [
+                {
+                    "addresses": [
+                        "10.244.0.14"
+                    ],
+                    "conditions": {
+                        "ready": true,
+                        "serving": true,
+                        "terminating": false
+                    },
+                    "nodeName": "delivery-sandbox-control-plane",
+                    "targetRef": {
+                        "kind": "Pod",
+                        "name": "delivery-demo-75894466b8-9xhlz",
+                        "namespace": "delivery-demo",
+                        "uid": "795bfd2d-359e-41cd-9c5c-f3a35d62d396"
+                    }
+                },
+                {
+                    "addresses": [
+                        "10.244.0.15"
+                    ],
+                    "conditions": {
+                        "ready": false,
+                        "serving": false,
+                        "terminating": false
+                    },
+                    "nodeName": "delivery-sandbox-control-plane",
+                    "targetRef": {
+                        "kind": "Pod",
+                        "name": "delivery-demo-7bbcd44d45-hss28",
+                        "namespace": "delivery-demo",
+                        "uid": "4a1e8e55-675a-49e1-8ede-c07ae760fd0a"
+                    }
+                }
+            ],
+            "kind": "EndpointSlice",
+            "metadata": {
+                "annotations": {
+                    "endpoints.kubernetes.io/last-change-trigger-time": "2026-11-18T11:25:44Z"
+                },
+                "creationTimestamp": "2026-11-12T01:37:46Z",
+                "generateName": "delivery-demo-",
+                "generation": 27,
+                "labels": {
+                    "endpointslice.kubernetes.io/managed-by": "endpointslice-controller.k8s.io",
+                    "kubernetes.io/service-name": "delivery-demo"
+                },
+                "name": "delivery-demo-jn97l",
+                "namespace": "delivery-demo",
+                "ownerReferences": [
+                    {
+                        "apiVersion": "v1",
+                        "blockOwnerDeletion": true,
+                        "controller": true,
+                        "kind": "Service",
+                        "name": "delivery-demo",
+                        "uid": "4e44b3d2-e7d6-4832-bc6e-021e9ecb6a0a"
+                    }
+                ],
+                "resourceVersion": "78462",
+                "uid": "a618881e-e252-4fbd-bfbe-0cf1b9f96a11"
+            },
+            "ports": [
+                {
+                    "name": "http",
+                    "port": 8080,
+                    "protocol": "TCP"
+                }
+            ]
+        }
+    ],
+    "kind": "List",
+    "metadata": {
+        "resourceVersion": ""
+    }
+}

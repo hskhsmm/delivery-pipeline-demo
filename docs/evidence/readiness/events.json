@@ -1,0 +1,203 @@
+{
+    "apiVersion": "v1",
+    "items": [
+        {
+            "action": "Binding",
+            "apiVersion": "v1",
+            "eventTime": "2026-11-18T11:25:44.092099Z",
+            "firstTimestamp": null,
+            "involvedObject": {
+                "apiVersion": "v1",
+                "kind": "Pod",
+                "name": "delivery-demo-7bbcd44d45-hss28",
+                "namespace": "delivery-demo",
+                "resourceVersion": "78442",
+                "uid": "4a1e8e55-675a-49e1-8ede-c07ae760fd0a"
+            },
+            "kind": "Event",
+            "lastTimestamp": null,
+            "message": "Successfully assigned delivery-demo/delivery-demo-7bbcd44d45-hss28 to delivery-sandbox-control-plane",
+            "metadata": {
+                "creationTimestamp": "2026-11-18T11:25:44Z",
+                "name": "delivery-demo-7bbcd44d45-hss28.18e92007bd07e025",
+                "namespace": "delivery-demo",
+                "resourceVersion": "78449",
+                "uid": "a43309d5-258e-41c7-82ac-6e954d281aea"
+            },
+            "reason": "Scheduled",
+            "reportingComponent": "default-scheduler",
+            "reportingInstance": "default-scheduler-delivery-sandbox-control-plane",
+            "source": {},
+            "type": "Normal"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 1,
+            "eventTime": null,
+            "firstTimestamp": "2026-11-18T11:25:44Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.containers{delivery-demo}",
+                "kind": "Pod",
+                "name": "delivery-demo-7bbcd44d45-hss28",
+                "namespace": "delivery-demo",
+                "resourceVersion": "78446",
+                "uid": "4a1e8e55-675a-49e1-8ede-c07ae760fd0a"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-11-18T11:25:44Z",
+            "message": "Container image \"docker.io/smini/delivery-pipeline-demo@sha256:235a3084796106279a134fc9c2fe72af495e1ad59a09a4e40cab6fe2ec3a4d88\" already present on machine and can be accessed by the pod",
+            "metadata": {
+                "creationTimestamp": "2026-11-18T11:25:44Z",
+                "name": "delivery-demo-7bbcd44d45-hss28.18e92007d8b34f5c",
+                "namespace": "delivery-demo",
+                "resourceVersion": "78455",
+                "uid": "ad838823-81c5-4420-a82a-d3a204d6909b"
+            },
+            "reason": "Pulled",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "delivery-sandbox-control-plane",
+            "source": {
+                "component": "kubelet",
+                "host": "delivery-sandbox-control-plane"
+            },
+            "type": "Normal"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 1,
+            "eventTime": null,
+            "firstTimestamp": "2026-11-18T11:25:44Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.containers{delivery-demo}",
+                "kind": "Pod",
+                "name": "delivery-demo-7bbcd44d45-hss28",
+                "namespace": "delivery-demo",
+                "resourceVersion": "78446",
+                "uid": "4a1e8e55-675a-49e1-8ede-c07ae760fd0a"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-11-18T11:25:44Z",
+            "message": "Container created",
+            "metadata": {
+                "creationTimestamp": "2026-11-18T11:25:44Z",
+                "name": "delivery-demo-7bbcd44d45-hss28.18e92007d9e4aae8",
+                "namespace": "delivery-demo",
+                "resourceVersion": "78457",
+                "uid": "c1bc8f0f-55f4-46d6-a526-7afe53dc8682"
+            },
+            "reason": "Created",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "delivery-sandbox-control-plane",
+            "source": {
+                "component": "kubelet",
+                "host": "delivery-sandbox-control-plane"
+            },
+            "type": "Normal"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 1,
+            "eventTime": null,
+            "firstTimestamp": "2026-11-18T11:25:44Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.containers{delivery-demo}",
+                "kind": "Pod",
+                "name": "delivery-demo-7bbcd44d45-hss28",
+                "namespace": "delivery-demo",
+                "resourceVersion": "78446",
+                "uid": "4a1e8e55-675a-49e1-8ede-c07ae760fd0a"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-11-18T11:25:44Z",
+            "message": "Container started",
+            "metadata": {
+                "creationTimestamp": "2026-11-18T11:25:44Z",
+                "name": "delivery-demo-7bbcd44d45-hss28.18e92007dcec2dff",
+                "namespace": "delivery-demo",
+                "resourceVersion": "78458",
+                "uid": "90860c06-ca73-4286-948e-30b6b7ad504b"
+            },
+            "reason": "Started",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "delivery-sandbox-control-plane",
+            "source": {
+                "component": "kubelet",
+                "host": "delivery-sandbox-control-plane"
+            },
+            "type": "Normal"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 1,
+            "eventTime": null,
+            "firstTimestamp": "2026-11-18T11:25:44Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.containers{delivery-demo}",
+                "kind": "Pod",
+                "name": "delivery-demo-7bbcd44d45-hss28",
+                "namespace": "delivery-demo",
+                "resourceVersion": "78446",
+                "uid": "4a1e8e55-675a-49e1-8ede-c07ae760fd0a"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-11-18T11:25:44Z",
+            "message": "Readiness probe failed: Get \"http://10.244.0.15:8080/readiness-failure-demo\": dial tcp 10.244.0.15:8080: connect: connection refused",
+            "metadata": {
+                "creationTimestamp": "2026-11-18T11:25:44Z",
+                "name": "delivery-demo-7bbcd44d45-hss28.18e92007dd146ac7",
+                "namespace": "delivery-demo",
+                "resourceVersion": "78459",
+                "uid": "abf5650a-68e8-4394-8f94-93a819c77d5a"
+            },
+            "reason": "Unhealthy",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "delivery-sandbox-control-plane",
+            "source": {
+                "component": "kubelet",
+                "host": "delivery-sandbox-control-plane"
+            },
+            "type": "Warning"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 13,
+            "eventTime": null,
+            "firstTimestamp": "2026-11-18T11:25:45Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.containers{delivery-demo}",
+                "kind": "Pod",
+                "name": "delivery-demo-7bbcd44d45-hss28",
+                "namespace": "delivery-demo",
+                "resourceVersion": "78446",
+                "uid": "4a1e8e55-675a-49e1-8ede-c07ae760fd0a"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-11-18T11:27:40Z",
+            "message": "Readiness probe failed: HTTP probe failed with statuscode: 404",
+            "metadata": {
+                "creationTimestamp": "2026-11-18T11:25:45Z",
+                "name": "delivery-demo-7bbcd44d45-hss28.18e920081b79581d",
+                "namespace": "delivery-demo",
+                "resourceVersion": "78641",
+                "uid": "2167bf9f-ff03-4497-b635-ff9183ed3f0a"
+            },
+            "reason": "Unhealthy",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "delivery-sandbox-control-plane",
+            "source": {
+                "component": "kubelet",
+                "host": "delivery-sandbox-control-plane"
+            },
+            "type": "Warning"
+        }
+    ],
+    "kind": "List",
+    "metadata": {
+        "resourceVersion": ""
+    }
+}
