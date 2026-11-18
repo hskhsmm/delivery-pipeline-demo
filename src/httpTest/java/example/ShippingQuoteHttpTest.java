@@ -13,6 +13,17 @@ public final class ShippingQuoteHttpTest {
         var base = URI.create("http://127.0.0.1:" + server.getAddress().getPort());
 
         try (var client = HttpClient.newBuilder().connectTimeout(Duration.ofSeconds(5)).build()) {
+            var page = client.send(HttpRequest.newBuilder(base.resolve("/")).build(),
+                    HttpResponse.BodyHandlers.ofString());
+            check(page.statusCode(), 200, "page status");
+            check(page.body().contains("id=\"quote-form\""), true, "page packaged in classpath");
+            check(page.headers().firstValue("Cache-Control").orElse(""), "no-store", "page cache");
+            assertResponse(client, base, "GET", "/version", 200,
+                    "{\"version\":\"shipping-ui-v1\",\"freeShippingThreshold\":30000,\"standardShippingFee\":3000}", "application/json");
+            assertResponse(client, base, "GET", "/missing", 404,
+                    "{\"error\":\"not_found\"}", "application/json");
+            assertResponse(client, base, "POST", "/", 405,
+                    "{\"error\":\"method_not_allowed\"}", "application/json");
             assertResponse(client, base, "GET", "/health", 200, "ok", "text/plain");
             assertResponse(client, base, "GET", "/shipping-quote?subtotal=29999", 200,
                     "{\"subtotal\":29999,\"shippingFee\":3000,\"total\":32999}", "application/json");
@@ -33,7 +44,7 @@ public final class ShippingQuoteHttpTest {
         } finally {
             server.stop(0);
         }
-        System.out.println("HTTP checks passed: /health and 9 shipping quote cases");
+        System.out.println("HTTP checks passed: page, version, routing, /health and 9 shipping quote cases");
     }
 
     private static HttpResponse<String> assertResponse(HttpClient client, URI base, String method,

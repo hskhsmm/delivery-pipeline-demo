@@ -25,8 +25,39 @@ public final class HealthServer {
         server.createContext("/health", exchange ->
                 respond(exchange, 200, "text/plain; charset=utf-8", "ok\n"));
         server.createContext(SHIPPING_PATH, HealthServer::shippingQuote);
+        server.createContext("/", HealthServer::page);
         server.start();
         return server;
+    }
+
+    /** 화면과 API를 같은 서버에서 제공해 배포된 백엔드에 직접 요청한다. */
+    private static void page(HttpExchange exchange) throws IOException {
+        String path = exchange.getRequestURI().getPath();
+        if (!path.equals("/") && !path.equals("/version")) {
+            respond(exchange, 404, JSON, "{\"error\":\"not_found\"}\n");
+            return;
+        }
+        if (!"GET".equals(exchange.getRequestMethod())) {
+            exchange.getResponseHeaders().set("Allow", "GET");
+            respond(exchange, 405, JSON, "{\"error\":\"method_not_allowed\"}\n");
+            return;
+        }
+        // 새 버전 시연 시 이 버전과 ShippingQuote의 기준 금액을 함께 변경한다.
+        exchange.getResponseHeaders().set("Cache-Control", "no-store");
+        if (path.equals("/version")) {
+            respond(exchange, 200, JSON,
+                    "{\"version\":\"shipping-ui-v1\",\"freeShippingThreshold\":%d,\"standardShippingFee\":%d}\n"
+                            .formatted(ShippingQuote.FREE_SHIPPING_THRESHOLD, ShippingQuote.STANDARD_SHIPPING_FEE));
+            return;
+        }
+        try (var resource = HealthServer.class.getResourceAsStream("/index.html")) {
+            if (resource == null) {
+                respond(exchange, 500, JSON, "{\"error\":\"page_unavailable\"}\n");
+                return;
+            }
+            respond(exchange, 200, "text/html; charset=utf-8",
+                    new String(resource.readAllBytes(), StandardCharsets.UTF_8));
+        }
     }
 
     private static void shippingQuote(HttpExchange exchange) throws IOException {
