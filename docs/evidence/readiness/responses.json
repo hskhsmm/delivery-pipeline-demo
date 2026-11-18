@@ -1,0 +1,47 @@
+[
+  {
+    "time": "2026-11-18T11:27:49.874828+00:00",
+    "status": 200,
+    "body": {
+      "subtotal": 35000,
+      "shippingFee": 0,
+      "total": 35000
+    }
+  },
+  {
+    "time": "2026-11-18T11:27:49.878092+00:00",
+    "status": 200,
+    "body": {
+      "subtotal": 35000,
+      "shippingFee": 0,
+      "total": 35000
+    }
+  },
+  {
+    "time": "2026-11-18T11:27:49.880786+00:00",
+    "status": 200,
+    "body": {
+      "subtotal": 35000,
+      "shippingFee": 0,
+      "total": 35000
+    }
+  },
+  {
+    "time": "2026-11-18T11:27:49.882882+00:00",
+    "status": 200,
+    "body": {
+      "subtotal": 35000,
+      "shippingFee": 0,
+      "total": 35000
+    }
+  },
+  {
+    "time": "2026-11-18T11:27:49.885344+00:00",
+    "status": 200,
+    "body": {
+      "subtotal": 35000,
+      "shippingFee": 0,
+      "total": 35000
+    }
+  }
+]
