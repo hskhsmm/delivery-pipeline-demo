@@ -9,6 +9,8 @@
 java -Dservice.port=18080 -jar build/libs/service.jar
 ```
 
+브라우저에서 `http://localhost:18080`을 열면 배송비 계산 화면이 나옵니다. 화면은 현재 서버의 `/version`에서 버전과 배송 정책을 읽고 `/shipping-quote`로 계산을 요청합니다.
+
 다른 터미널에서 API를 호출합니다.
 
 ```sh
@@ -41,3 +43,9 @@ curl -i 'http://127.0.0.1:18080/shipping-quote?subtotal=30000'
 Jenkins 빌드 #6에서 배송비 API의 HTTP 테스트 10개가 통과했습니다. Jenkins가 이미지를 발행하고 GitOps PR #2를 열었습니다. PR을 검토해 병합한 뒤 Argo CD가 `delivery-sandbox`에 새 이미지를 적용했고, 배포된 서비스에 직접 요청해 정상 응답, 무료 배송 경계값, 오류 응답을 확인했습니다. [배송비 API 배포 검증과 캡처](docs/evidence/shipping-quote.md)
 
 초기 검증에서는 Jenkins 빌드 #3이 서비스 커밋 `01c4f84`의 이미지를 발행했습니다. 당시에는 digest를 GitOps 저장소에 직접 커밋하고 Argo CD 동기화와 `/health`의 응답을 확인했습니다.
+
+## 화면을 보며 직접 배포하기
+
+화면의 `shipping-ui-v1`은 코드에 지정한 서비스 버전입니다. 실제 이미지의 식별자는 Jenkins의 `published-image.json`과 Pod 상세 화면의 digest로 확인합니다. 새 페이지는 로컬 검증 후 저장소에 추가했으며 클러스터 배포는 사용자가 진행합니다.
+
+[직접 배포와 롤백 실습 가이드](docs/manual-deployment.md)를 따라 화면이 바뀌는 과정을 확인할 수 있습니다.
