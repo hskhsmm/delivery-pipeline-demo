@@ -48,7 +48,7 @@ Jenkins 빌드 #6에서 배송비 API의 HTTP 테스트 10개가 통과했습니
 
 ## 화면을 보며 직접 배포하기
 
-화면의 `shipping-ui-v1`은 코드에 지정한 서비스 버전입니다. 실제 이미지의 식별자는 Jenkins의 `published-image.json`과 Pod 상세 화면의 digest로 확인합니다. 새 페이지는 로컬 검증 후 저장소에 추가했으며 클러스터 배포는 사용자가 진행합니다.
+화면과 `/version`의 `shipping-ui-v2`로 서비스 버전을 확인할 수 있습니다. 실제 배포된 이미지는 Jenkins의 `published-image.json`, GitOps PR의 이미지 변경 줄, Pod에 적용된 이미지 참조에서 digest를 비교해 확인합니다.
 
 [직접 배포와 롤백 실습 가이드](docs/manual-deployment.md)를 따라 화면이 바뀌는 과정을 확인할 수 있습니다.
 
